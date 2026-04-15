@@ -1,4 +1,8 @@
-# Ghost OS X
+# GhostOS X
+
+> Your laptop prepares your workflow before you even start.
+
+Lightweight adaptive system for Linux that learns your behavior, predicts your next actions, and reconstructs your workflow automatically — without heavy AI or cloud dependencies.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Platform](https://img.shields.io/badge/Linux-X11-green)
@@ -9,8 +13,7 @@ No machine learning frameworks. No cloud. No tracking. Everything runs locally.
 **Adaptive Workflow Intelligence Engine for Linux**
 
 GhostOS X is a lightweight adaptive system for Linux that learns your workflow, predicts your next actions, and prepares your environment automatically — without heavy AI or manual configuration.
-
-Built with Python 3 and SQLite. No heavy dependencies.
+Built with Python 3 and SQLite. No heavy dependencies. Everything runs locally.
 
 ---
 
@@ -27,17 +30,29 @@ GhostOS:
 All before you do anything.
 
 ---
+## ⚡ Why GhostOS X?
 
-## 🎯 Why GhostOS X?
-
-Modern systems are reactive — they wait for user input.
+Most systems react after you act.
 
 GhostOS X is proactive.
 
-It observes your behavior, learns patterns, and prepares your workflow before you act.
+It observes your behavior, learns patterns, and prepares your environment before you even touch your keyboard.
 
-The goal is simple:
-reduce friction and make your system feel adaptive.
+No cloud. No heavy AI. Everything runs locally.
+
+
+---
+
+## 🔁 How it behaves
+
+You → sit at your laptop  
+GhostOS → already knows it's coding time  
+
+→ Opens VSCode  
+→ Opens Terminal  
+→ Prepares workspace  
+
+You just start working.
 
 ---
 
@@ -362,6 +377,16 @@ Window titles are automatically normalized:
 7. **Voice** announces actions via system TTS when enabled
 8. **Preflight** checks dependencies and environment before starting
 9. **Logger** writes all activity to `logs/ghostos.log`
+
+---
+
+## ⚠️ Reality Check
+
+- Requires X11 for full tracking support  
+- Wayland support is limited  
+- Predictions improve over time (needs usage data)  
+
+GhostOS X is designed to learn from real usage — not instant results.
 
 ---
 
