@@ -2,9 +2,23 @@
 
 **Activity Intelligence Engine for Linux**
 
-Ghost OS X tracks your active window usage, analyzes behavior patterns, predicts your next app, and can auto-launch applications based on your habits.
+GhostOS X is a lightweight adaptive system for Linux that learns your workflow, predicts your next actions, and prepares your environment automatically — without heavy AI or manual configuration.
 
 Built with Python 3 and SQLite. No external dependencies.
+
+---
+
+## 🧠 Example
+
+You open your laptop at night.
+
+GhostOS:
+- predicts you will code
+- launches VSCode
+- opens terminal
+- prepares your workflow
+
+All before you do anything.
 
 ---
 
