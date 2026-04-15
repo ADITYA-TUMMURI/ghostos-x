@@ -2,8 +2,6 @@
 
 > Your laptop prepares your workflow before you even start.
 
-Lightweight adaptive system for Linux that learns your behavior, predicts your next actions, and reconstructs your workflow automatically — without heavy AI or cloud dependencies.
-
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Platform](https://img.shields.io/badge/Linux-X11-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
