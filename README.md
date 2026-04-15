@@ -1,10 +1,16 @@
 # Ghost OS X
 
-**Activity Intelligence Engine for Linux**
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Platform](https://img.shields.io/badge/Linux-X11-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+No machine learning frameworks. No cloud. No tracking. Everything runs locally.
+
+**Adaptive Workflow Intelligence Engine for Linux**
 
 GhostOS X is a lightweight adaptive system for Linux that learns your workflow, predicts your next actions, and prepares your environment automatically — without heavy AI or manual configuration.
 
-Built with Python 3 and SQLite. No external dependencies.
+Built with Python 3 and SQLite. No heavy dependencies.
 
 ---
 
@@ -19,6 +25,19 @@ GhostOS:
 - prepares your workflow
 
 All before you do anything.
+
+---
+
+## 🎯 Why GhostOS X?
+
+Modern systems are reactive — they wait for user input.
+
+GhostOS X is proactive.
+
+It observes your behavior, learns patterns, and prepares your workflow before you act.
+
+The goal is simple:
+reduce friction and make your system feel adaptive.
 
 ---
 
@@ -220,8 +239,6 @@ All user data and runtime logs are stored securely in:
 └── logs/
     └── ghostos.log         Runtime logger output
 ```
-├── ghostos.service          systemd user service
-├── install-service.sh       Service installer
 ├── setup.py                 Package installer
 ├── requirements.txt         Dependencies
 └── README.md                This file
