@@ -1,0 +1,5 @@
+# No external dependencies — stdlib only
+# Listed for documentation clarity
+#
+# System requirement (not pip-installable):
+#   xdotool — install via: sudo dnf install xdotool

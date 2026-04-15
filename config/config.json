@@ -1,0 +1,14 @@
+{
+  "overlay": true,
+  "voice": false,
+  "autopilot": true,
+  "suggestions": true,
+  "daemon_interval": 300,
+  "cooldown": 1800,
+  "launch_map": {
+    "VSCode": ["code", "code-oss", "codium"],
+    "Chrome": ["google-chrome", "google-chrome-stable", "chromium", "chromium-browser"],
+    "Firefox": ["firefox", "firefox-esr"],
+    "Terminal": ["gnome-terminal", "konsole", "xfce4-terminal", "alacritty", "kitty", "xterm"]
+  }
+}

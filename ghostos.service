@@ -1,0 +1,16 @@
+[Unit]
+Description=Ghost OS X — Activity Intelligence Daemon
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/Thors/Ghost os x/ghostos.py daemon
+WorkingDirectory=/home/Thors/Ghost os x
+Restart=always
+RestartSec=5
+Environment=DISPLAY=:0
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
