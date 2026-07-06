@@ -1,0 +1,14 @@
+[Unit]
+Description=GhostOS X Active Window Tracking Daemon
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/projects/ghostos-x/ghostos/core_tracker.py
+Restart=on-failure
+RestartSec=5
+# Ensure environment variables are loaded for window query commands
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

@@ -89,17 +89,17 @@ def init_db(db_path):
 
 def load_config(config_path, default_path):
     """Load configuration with dynamic fallback mechanism."""
-    os.makedirs(os.path.dirname(config_path), exist_ok=True)
+    primary_config_path = os.path.expanduser("~/.config/ghostos/config.json")
     
-    # If the active user config doesn't exist, seed it from default config template
-    if not os.path.exists(config_path) and default_path and os.path.exists(default_path):
+    # Try loading from ~/.config/ghostos/config.json first
+    if os.path.exists(primary_config_path):
         try:
-            shutil.copy2(default_path, config_path)
-            print(f"[GhostOS] Initialized user config at {config_path}")
+            with open(primary_config_path, "r") as f:
+                return json.load(f)
         except Exception as e:
-            print(f"[GhostOS] Failed to initialize user config: {e}", file=sys.stderr)
+            print(f"[GhostOS] Error parsing config at {primary_config_path}: {e}", file=sys.stderr)
             
-    # Try loading from the active config file
+    # Fallback to ~/.local/share/ghostos/config.json
     if os.path.exists(config_path):
         try:
             with open(config_path, "r") as f:
@@ -107,7 +107,18 @@ def load_config(config_path, default_path):
         except Exception as e:
             print(f"[GhostOS] Error parsing config at {config_path}: {e}", file=sys.stderr)
             
-    # Fallback to the default config template directly
+    # Seed config in ~/.config/ghostos/config.json if template exists
+    if default_path and os.path.exists(default_path):
+        try:
+            os.makedirs(os.path.dirname(primary_config_path), exist_ok=True)
+            shutil.copy2(default_path, primary_config_path)
+            print(f"[GhostOS] Initialized user config at {primary_config_path}")
+            with open(primary_config_path, "r") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"[GhostOS] Failed to initialize user config: {e}", file=sys.stderr)
+            
+    # Fallback to default template file directly
     if default_path and os.path.exists(default_path):
         try:
             with open(default_path, "r") as f:

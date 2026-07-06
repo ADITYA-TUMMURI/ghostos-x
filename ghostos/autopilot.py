@@ -37,8 +37,18 @@ def find_default_config():
 
 def load_config():
     """Load configuration settings with fallback defaults."""
+    primary_config_path = os.path.expanduser("~/.config/ghostos/config.json")
     default_path = find_default_config()
     
+    # Try ~/.config/ghostos/config.json first
+    if os.path.exists(primary_config_path):
+        try:
+            with open(primary_config_path, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+            
+    # Try fallback config path
     if os.path.exists(CONFIG_PATH):
         try:
             with open(CONFIG_PATH, "r") as f:
@@ -46,6 +56,7 @@ def load_config():
         except Exception:
             pass
             
+    # Fallback to default template file directly
     if default_path and os.path.exists(default_path):
         try:
             with open(default_path, "r") as f:
