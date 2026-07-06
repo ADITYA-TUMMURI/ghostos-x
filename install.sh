@@ -7,6 +7,35 @@ set -euo pipefail
 # Get absolute path of the directory where install.sh is located
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Uninstall function
+uninstall() {
+    echo "=================================================="
+    echo "    GhostOS X Uninstaller                         "
+    echo "=================================================="
+    echo "Stopping systemd user service..."
+    systemctl --user stop ghostos.service || true
+    systemctl --user disable ghostos.service || true
+    
+    echo "Removing systemd service file..."
+    rm -f "$HOME/.config/systemd/user/ghostos.service"
+    systemctl --user daemon-reload
+    
+    echo "Removing user configuration files..."
+    rm -rf "$HOME/.config/ghostos"
+    
+    echo "--------------------------------------------------"
+    echo "GhostOS X configuration and services uninstalled."
+    echo "NOTE: Your tracked database and rate limit files in"
+    echo "      ~/.local/share/ghostos/ have been preserved."
+    echo "=================================================="
+}
+
+# Check for uninstall flags
+if [ "${1:-}" = "--uninstall" ] || [ "${1:-}" = "-u" ]; then
+    uninstall
+    exit 0
+fi
+
 echo "=================================================="
 echo "    GhostOS X Installer Blueprint                 "
 echo "=================================================="

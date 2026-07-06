@@ -94,17 +94,27 @@ def render_report(date_str, db_path=DB_PATH):
         print(f"{name_str} {time_str}  {bar}  {percentage:>3}%")
 
 
-if __name__ == "__main__":
+def generate_report():
+    """CLI entry point wrapper to parse dates and execute report generation."""
     target_date = None
-    if len(sys.argv) > 1:
-        date_input = sys.argv[1]
-        # Basic YYYY-MM-DD validation
+    # Parse date when invoked as 'python3 -m ghostos report [DATE]' or directly 'report_cli.py [DATE]'
+    if len(sys.argv) > 2:
+        date_input = sys.argv[2]
         if re.match(r"^\d{4}-\d{2}-\d{2}$", date_input):
             target_date = date_input
         else:
-            print("Error: Invalid date format. Please use YYYY-MM-DD (e.g. 2026-07-07).", file=sys.stderr)
+            print("Error: Invalid date format. Please use YYYY-MM-DD.", file=sys.stderr)
             sys.exit(1)
-    else:
+    elif len(sys.argv) > 1 and sys.argv[0].endswith("report_cli.py"):
+        date_input = sys.argv[1]
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", date_input):
+            target_date = date_input
+            
+    if not target_date:
         target_date = datetime.now().strftime("%Y-%m-%d")
 
     render_report(target_date)
+
+
+if __name__ == "__main__":
+    generate_report()

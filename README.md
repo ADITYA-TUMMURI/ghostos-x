@@ -1,393 +1,137 @@
 # GhostOS X
 
-> Your laptop prepares your workflow before you even start.
+> Your desktop automation platform, rebuilt for minimalist Linux systems.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Platform](https://img.shields.io/badge/Linux-X11-green)
+![Platform](https://img.shields.io/badge/Linux-Wayland%20%2F%20X11-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Dependencies](https://img.shields.io/badge/Dependencies-Standard%20Library%20Only-brightgreen)
 
-No machine learning frameworks. No cloud. No tracking. Everything runs locally.
-
-**Adaptive Workflow Intelligence Engine for Linux**
-
-GhostOS X is a lightweight adaptive system for Linux that learns your workflow, predicts your next actions, and prepares your environment automatically — without heavy AI or manual configuration.
-Built with Python 3 and SQLite. No heavy dependencies. Everything runs locally.
+No machine learning frameworks. No cloud. No tracking. Zero external dependencies. Everything runs locally in your standard Python environment.
 
 ---
 
-## 🧠 Example
+## 🧠 Workflow Intelligence: Time-Decayed Markov Chain Engine
 
-You open your laptop at night.
-
-GhostOS:
-- predicts you will code
-- launches VSCode
-- opens terminal
-- prepares your workflow
-
-All before you do anything.
-
----
-## ⚡ Why GhostOS X?
-
-Most systems react after you act.
-
-GhostOS X is proactive.
-
-It observes your behavior, learns patterns, and prepares your environment before you even touch your keyboard.
-
-No cloud. No heavy AI. Everything runs locally.
-
+GhostOS X features a lightweight, time-decayed transition prediction engine implemented from scratch in pure Python:
+*   **Decayed Transition Probabilities**: Instead of simple frequencies, the engine weights user history using an exponential decay algorithm:
+    *   Transitions in the last 7 days receive a weight multiplier of `1.0`.
+    *   Transitions in the last 30 days receive a weight multiplier of `0.5`.
+    *   Transitions older than 30 days receive a weight multiplier of `0.1`.
+*   **Context-Aware Routing**: Prioritizes transitions matching active context hints (e.g. project workspace directories mined from terminal title strings) by applying a `5.0x` weight boost.
+*   **Workflow Reconstruction**: Iteratively charts upcoming transitions to form a chain of next actions (e.g. `Terminal -> VSCode -> Chrome`).
 
 ---
 
-## 🔁 How it behaves
+## 🔒 Privacy-First Design: Active Window Masking
 
-You → sit at your laptop  
-GhostOS → already knows it's coding time  
-
-→ Opens VSCode  
-→ Opens Terminal  
-→ Prepares workspace  
-
-You just start working.
+GhostOS X protects your active session data using strict browser filtering and masking policies:
+*   **Mask Everything Mode**: Optional configuration to replace all browser-related window titles with a generic `"Browser"` label.
+*   **Domain Truncation**: When domain-masking is enabled, titles matching a customizable domain whitelist are truncated (e.g. mapping `"Pull Requests · ADITYA-TUMMURI/ghostos-x · GitHub"` down to `"github.com"`).
+*   **Full Anonymization**: All path queries, query parameters, title headings, and metadata are scrubbed before logging to ensure zero exposure of private URLs.
 
 ---
 
-## Features
+## ⚡ Cross-Compositor Window Tracking
 
-| Module | Description |
-|---|---|
-| **Tracker** | Polls active window every 5s via `xdotool`, logs to SQLite |
-| **Patterns** | Top apps by total usage + dominant app per hour |
-| **Sequences** | Detects most common app-to-app transitions |
-| **Predictions** | Time-based + next-app prediction from historical data |
-| **Report** | Daily breakdown with focus score and visual bars |
-| **Autopilot** | Phantom Mode — reconstructs & launches full workflow chains |
-| **Daemon** | Background autopilot loop with configurable cooldown |
-| **Config** | JSON-based toggle system for all features |
-| **Voice** | Optional TTS announcements via espeak/spd-say |
+Unlike legacy solutions, GhostOS X dynamically detects your display server and compositor to gather window focus:
+*   **Wayland Native**: 
+    *   *Hyprland*: Uses `hyprctl` socket communication.
+    *   *Sway*: Queries the window tree recursively via standard JSON messages (`swaymsg`).
+*   **X11 Fallback**: Invokes `xdotool` natively.
 
 ---
 
-## Installation
+## 🚀 Installation & Systemd Service
 
-### Prerequisites
+Deploy the systemd user tier background service and configurations using the universal installation script:
 
-- Python 3.10+
-- Linux with X11
-- `xdotool` installed:
+### 1. Run the Installer
+```bash
+./install.sh
+```
+*Note: The installer automatically checks package manager managers (`dnf`, `apt`, `pacman`, `zypper`) for platform binaries like `xdotool` and configures execution environments.*
+
+### 2. Systemd User Tier Control
+You do not need system root access. Run and monitor the background daemon:
+```bash
+# Enable and start the tracker immediately
+systemctl --user enable --now ghostos.service
+
+# Check active runtime status
+systemctl --user status ghostos.service
+```
+
+### 3. Uninstall Cleanly
+To stop the daemon and revert changes without losing your tracked SQLite records:
+```bash
+./uninstall.sh
+```
+
+---
+
+## 💻 CLI Commands
+
+Run the execution wrapper via Python module flags:
 
 ```bash
-# Fedora
-sudo dnf install xdotool
+# Start active window tracking in the foreground
+python3 -m ghostos track
 
-# Ubuntu/Debian
-sudo apt install xdotool
-```
+# View Focus Score & ASCII progress bar breakdown for today
+python3 -m ghostos report
 
-### Optional: Voice Feedback
+# View focus score for a specific date
+python3 -m ghostos report 2026-07-07
 
-```bash
-# Fedora
-sudo dnf install espeak
-
-# Ubuntu/Debian
-sudo apt install espeak
-
-# Then enable:
-ghostos config set voice true
-```
-
-### Install
-
-```bash
-git clone https://github.com/youruser/ghostos-x.git
-cd ghostos-x
-pip install .
-```
-
-Or run directly without installing:
-
-```bash
-python ghostos.py <command>
+# Manually invoke safe Phantom Mode autopilot
+python3 -m ghostos autopilot
 ```
 
 ---
 
-## Usage
+## ⚙️ Configuration (`~/.config/ghostos/config.json`)
 
-```
-ghostos track              Start tracking active window
-ghostos report [DATE]      Daily report (default: today)
-ghostos patterns           Top apps + hourly usage patterns
-ghostos sequences          App transition sequences
-ghostos predict            Time + next-app predictions
-ghostos autopilot          Phantom mode (workflow reconstruction)
-ghostos daemon             Background autopilot daemon
-ghostos config show        Show current config
-ghostos config set K V     Set config value
-ghostos status             Show database stats
-```
-
----
-
-## Configuration
-
-All features are toggleable via `config/config.json`:
-
+All active settings are defined in a clean JSON format:
 ```json
 {
-  "overlay": true,
-  "voice": false,
-  "autopilot": true,
-  "suggestions": true,
-  "daemon_interval": 300,
-  "cooldown": 1800
+  "browser_privacy": {
+    "mask_everything": false,
+    "allowed_domains_only": [
+      "github.com",
+      "google.com",
+      "stackoverflow.com"
+    ]
+  },
+  "app_normalization": {
+    "chrome": "Chrome",
+    "firefox": "Firefox",
+    "vs code": "VSCode",
+    "code": "VSCode",
+    "terminal": "Terminal"
+  },
+  "hooks": {
+    "pre_autopilot": "echo 'Preparing Phantom Mode...'",
+    "post_autopilot": "echo 'Phantom Mode complete.'"
+  },
+  "autopilot_settings": {
+    "max_launches_per_minute": 10,
+    "check_process_active": true
+  }
 }
 ```
 
-### CLI Config Commands
+---
 
-```bash
-# View all settings
-ghostos config show
+## 🛠️ Data Storage & Recovery
 
-# Enable voice feedback
-ghostos config set voice true
-
-# Disable autopilot
-ghostos config set autopilot false
-
-# Change daemon interval to 10 minutes
-ghostos config set daemon_interval 600
-```
+All local databases and logs are stored under user XDG directories:
+*   **Database**: `~/.local/share/ghostos/activity.db`
+*   **Rate Limits**: `~/.local/share/ghostos/rate_limit.json`
+*   **Self-Healing Recovery**: If database corruption is detected, GhostOS X backs up the corrupted database to `activity.db.bak` and reconstructs a fresh SQLite instance automatically without crashing the execution loop.
 
 ---
 
-## Example Output
-
-### `ghostos report 2026-04-15`
-
-```
-╔══════════════════════════════════════╗
-║       GHOST OS X — DAILY REPORT      ║
-╠══════════════════════════════════════╣
-║  Date: 2026-04-15                   ║
-╚══════════════════════════════════════╝
-
-=== Overview ===
-Total tracked: 6.7h
-Total sessions: 12
-Apps used: 4
-Avg session: 33.3m
-Longest session: 1.0h
-Focus score: [████████████████████] 100/100
-
-=== App Breakdown ===
-  Chrome             3.0h  ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░  45%  (4 sessions)
-  VSCode             2.5h  ▓▓▓▓▓▓▓░░░░░░░░░░░░░  38%  (4 sessions)
-  Firefox           40.0m  ▓▓░░░░░░░░░░░░░░░░░░  10%  (2 sessions)
-  Terminal          30.0m  ▓░░░░░░░░░░░░░░░░░░░  8%  (2 sessions)
-
-=== Peak Hours ===
-  09:00  3.0h
-  21:00  1.5h
-  14:00  1.0h
-```
-
-### `ghostos autopilot` (Phantom Mode)
-
-```
-[GhostOS] Hour: 09:00
-[GhostOS] Reconstructing workflow...
-[GhostOS] Chain: Chrome → Terminal
-[GhostOS] Launching Chrome
-[GhostOS] Launching Terminal
-```
-
-### `ghostos config show`
-
-```
-=== Ghost OS X — Config ===
-  overlay              True ✓
-  voice                False ✗
-  autopilot            True ✓
-  suggestions          True ✓
-  daemon_interval      300
-  cooldown             1800
-```
-
----
-
-## Project Structure
-
-```
-ghostos-x/
-├── ghostos.py              CLI entry point
-├── activity_logger.py      SQLite database handler
-├── tracker.py              Active window tracker
-├── analysis/               Analysis & Prediction modules
-├── core/                   Core logic (autopilot, daemon, config, etc.)
-├── ui/
-│   └── dashboard.py        Optional Flask web dashboard
-├── ghostos.service         systemd user service
-├── install-service.sh      Service installer
-├── setup.py                Package installer
-├── requirements.txt        Dependencies
-└── README.md               This file
-```
-
----
-
-## Data Directory
-
-All user data and runtime logs are stored securely in:
-`~/.local/share/ghostos/`
-
-```
-~/.local/share/ghostos/
-├── activity.db             SQLite database
-├── config.json             User settings
-└── logs/
-    └── ghostos.log         Runtime logger output
-```
-├── setup.py                 Package installer
-├── requirements.txt         Dependencies
-└── README.md                This file
-```
-
----
-
-## Compatibility
-
-| Feature | X11 | Wayland |
-|---|---|---|
-| Window tracking | ✅ Full | ⚠ Limited |
-| App launching | ✅ Full | ✅ Full |
-| Predictions | ✅ Full | ✅ Full |
-| Voice feedback | ✅ Full | ✅ Full |
-
-> **Wayland note:** `xdotool` does not work natively on Wayland. Ghost OS X will print a warning and continue safely, but tracking data may be unavailable. Use XWayland or X11 session for full support.
-
----
-
-## Quick Start
-
-```bash
-# 1. Install xdotool
-sudo dnf install xdotool    # Fedora
-sudo apt install xdotool    # Ubuntu/Debian
-
-# 2. Start tracking (run for a few hours)
-ghostos track
-
-# 3. View your report
-ghostos report
-
-# 4. See predictions
-ghostos predict
-
-# 5. Start the background daemon
-ghostos daemon
-
-# 6. View local web dashboard (optional)
-ghostos config set dashboard true
-ghostos dashboard
-```
-
----
-
-## Troubleshooting
-
-### xdotool not found
-```
-[GhostOS] ✗ xdotool not found.
-```
-**Fix:** Install it:
-```bash
-sudo dnf install xdotool    # Fedora
-sudo apt install xdotool    # Ubuntu/Debian
-```
-
-### App not launching
-```
-[GhostOS] No installed binary for Chrome
-```
-**Fix:** Edit `config/config.json` and add your browser command to the `launch_map`:
-```json
-"Chrome": ["google-chrome", "chromium", "your-browser-command"]
-```
-
-### Voice not working
-```
-[GhostOS] ℹ No TTS engine found
-```
-**Fix:**
-```bash
-sudo dnf install espeak     # Fedora
-sudo apt install espeak     # Ubuntu/Debian
-ghostos config set voice true
-```
-
-### Wayland warning
-```
-[GhostOS] ⚠ Wayland detected — tracking may not work
-```
-**Fix:** Switch to X11 session at login, or accept limited tracking.
-
-### Flask not installed
-```
-[GhostOS] Flask not installed. Run: pip install flask
-```
-**Fix:** If you enabled the dashboard, you must install Flask to run it:
-```bash
-pip install flask
-```
-
-### Database corruption
-Ghost OS X automatically backs up corrupted databases to `~/.local/share/ghostos/activity.db.bak` and recreates a fresh one.
-
----
-
-## App Normalization
-
-Window titles are automatically normalized:
-
-| Window Title Contains | Normalized To |
-|---|---|
-| chrome, chromium | Chrome |
-| firefox | Firefox |
-| vs code, code | VSCode |
-| terminal, konsole, alacritty, kitty | Terminal |
-| anything else | First 30 characters |
-
----
-
-## How It Works
-
-1. **Tracker** polls the active window every 5 seconds
-2. On app switch (or every 30s checkpoint), duration is logged to SQLite
-3. **Analysis engines** query the database for patterns, sequences, and predictions
-4. **Autopilot** builds workflow chains from transition data and launches sequentially
-5. **Daemon** runs autopilot in a loop with configurable cooldown
-6. **Config** lets you toggle any feature on/off without touching code
-7. **Voice** announces actions via system TTS when enabled
-8. **Preflight** checks dependencies and environment before starting
-9. **Logger** writes all activity to `logs/ghostos.log`
-
----
-
-## ⚠️ Reality Check
-
-- Requires X11 for full tracking support  
-- Wayland support is limited  
-- Predictions improve over time (needs usage data)  
-
-GhostOS X is designed to learn from real usage — not instant results.
-
----
-
-## License
+## 📄 License
 
 MIT

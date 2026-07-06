@@ -283,11 +283,29 @@ def trigger_phantom_mode(current_app, current_context=None, db_path=None):
         subprocess.run(post_hook, shell=True, check=False)
 
 
+def trigger_autopilot_cli():
+    """CLI entry point wrapper for triggering autopilot on the current active window."""
+    from ghostos.core_tracker import get_active_window, normalize_and_log
+    
+    title = get_active_window()
+    if not title:
+        print("[GhostOS] Could not fetch active window. Autopilot aborted.")
+        return
+        
+    config = load_config()
+    app_name, context = normalize_and_log(title, config)
+    
+    if not app_name or app_name == "Idle":
+        print(f"[GhostOS] Active window normalized to '{app_name}'. Autopilot idle.")
+        return
+        
+    trigger_phantom_mode(app_name, context)
+
+
 if __name__ == "__main__":
-    # Test execution stub
     if len(sys.argv) > 1:
         app_arg = sys.argv[1]
         ctx_arg = sys.argv[2] if len(sys.argv) > 2 else None
         trigger_phantom_mode(app_arg, ctx_arg)
     else:
-        print("Usage: python3 autopilot.py <current_app> [current_context]")
+        trigger_autopilot_cli()

@@ -448,5 +448,9 @@ def start_tracking(poll_interval=5, checkpoint_interval=30):
             print(f"[GhostOS] Tracking loop error: {e}", file=sys.stderr)
 
 
+# Alias for CLI execution router compatibility
+start_loop = start_tracking
+
+
 if __name__ == "__main__":
     start_tracking()
