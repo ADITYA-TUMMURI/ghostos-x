@@ -1,0 +1,35 @@
+{
+  "browser_privacy": {
+    "mask_everything": false,
+    "allowed_domains_only": [
+      "github.com",
+      "google.com",
+      "stackoverflow.com",
+      "docs.python.org",
+      "wikipedia.org"
+    ]
+  },
+  "app_normalization": {
+    "chrome": "Chrome",
+    "chromium": "Chrome",
+    "firefox": "Firefox",
+    "brave": "Brave",
+    "opera": "Opera",
+    "vs code": "VSCode",
+    "code": "VSCode",
+    "terminal": "Terminal",
+    "konsole": "Terminal",
+    "alacritty": "Terminal",
+    "kitty": "Terminal",
+    "bash": "Terminal",
+    "zsh": "Terminal"
+  },
+  "hooks": {
+    "pre_autopilot": "echo 'Preparing environment for Autopilot...'",
+    "post_autopilot": "echo 'Autopilot execution finished successfully.'"
+  },
+  "autopilot_settings": {
+    "max_launches_per_minute": 10,
+    "check_process_active": true
+  }
+}
